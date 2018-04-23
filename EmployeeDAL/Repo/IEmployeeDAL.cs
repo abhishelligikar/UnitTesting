@@ -13,5 +13,6 @@ namespace EmployeeDAL.Repo
         bool EditEmployee(Employee objEmployee);
         bool DeleteEmployee(int id);
         IEnumerable<Employee> GetEmployees();
+        Employee GetEmployee(int id);
     }
 }

@@ -9,6 +9,7 @@ using System.Web.UI.WebControls;
 using System.Net;
 using Moq;
 using EmployeeDAL.Repo;
+using System.Reflection;
 
 namespace MVCTestingApp.Tests.Controllers
 {
@@ -94,8 +95,29 @@ namespace MVCTestingApp.Tests.Controllers
             //Assert.AreEqual(objList, objmoq);
             Assert.IsNotNull(result.Model);
             Assert.AreEqual("Index", result.ViewName);
-            
            
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(TargetParameterCountException),"TestCaseFailed")]
+        public void GetEmployee(int id)
+        {
+            var objmoq = new Mock<IEmployeeDAL>();
+            objmoq.Setup(X => X.GetEmployee(5882)).Throws(new Exception("Employee Does not Exist"));
+            EmployeeController objEmployeeController = new EmployeeController(objmoq.Object);
+
+            var result = objEmployeeController.GetEmployee(5882) as ViewResult;
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(TargetParameterCountException), "TestCaseFailed")]
+        public void GetEmployeeIfIdLessThanZero(int id)
+        {
+            var objmoq = new Mock<IEmployeeDAL>();
+            objmoq.Setup(X => X.GetEmployee(-2)).Throws(new Exception("Id cannot be null"));
+            EmployeeController objEmployeeController = new EmployeeController(objmoq.Object);
+
+            var result = objEmployeeController.GetEmployee(-2) as ViewResult;
         }
     }
 }

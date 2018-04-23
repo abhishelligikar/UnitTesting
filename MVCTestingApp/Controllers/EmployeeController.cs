@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Reflection;
 
 
 namespace MVCTestingApp.Controllers
@@ -142,6 +143,30 @@ namespace MVCTestingApp.Controllers
                 //Content(HttpStatusCode.BadRequest, e.ToString());
                 return View("Error", new HandleErrorInfo(e, "Employee", "Delete"));
             }
+        }
+
+        [HttpGet]
+        public ActionResult GetEmployee(int id)
+        {
+            try
+            {
+                if (id !=null)
+                {
+                    var result = _dal.GetEmployee(id);
+                    return View(result);
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Employee id is not valid");
+                    return View();
+                }
+            }
+           
+            catch(Exception e)
+            {
+                throw e;
+            }
+           
         }
     }
 }

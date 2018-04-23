@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
+using System.Reflection;
+using System.Data.SqlClient;
 
 namespace EmployeeDAL
 {
@@ -58,6 +60,25 @@ namespace EmployeeDAL
                 var result = objEntity.Employees.ToList();
                 return result;
             }
+        }
+
+        public Employee GetEmployee(int id)
+        {
+            Employee objEmployee;
+            using (AngularCRUDEntities objEntity = new AngularCRUDEntities())
+            {
+                if (id <=0)
+                {
+                    throw new Exception("Id cannot be less than zero");
+                }
+                objEmployee = objEntity.Employees.Where(emp => emp.EmployeeID == id).FirstOrDefault();
+                if (objEmployee == null)
+                {
+                    throw new TargetParameterCountException("Employee Does not Exist");
+                }
+            }
+            return objEmployee;
+
         }
     }
 }
