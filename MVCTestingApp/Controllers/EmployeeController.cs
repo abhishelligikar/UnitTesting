@@ -15,7 +15,7 @@ namespace MVCTestingApp.Controllers
     [HandleError(ExceptionType = typeof(Exception), View = "Error")]
     public class EmployeeController : Controller
     {
-
+        public EmployeeController() { }
         //protected override void OnException(ExceptionContext filterContext)
         //{
         //    Exception exception = filterContext.Exception;
